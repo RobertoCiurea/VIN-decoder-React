@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ac-400:151, 72%, 40%;
+    --ac-400-hover:151, 72%, 35%;
+    --white: 0, 0%, 100%;
+    --bg-200: 240, 100%, 100%;
+
+    /*fonts*/
+    --Lunasima: font-family: 'Lunasima', sans-serif;
+    --Tektur: font-family: 'Tektur', cursive;
+    /* ... */
+  }
+}
