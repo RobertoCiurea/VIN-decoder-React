@@ -8,7 +8,7 @@ router.post("/vin", async (req, res) => {
   const secretKey = process.env.SECRET_KEY;
 
   const { vin } = await req.body;
-  console.log(vin);
+
   try {
     let apiPrefix = "https://api.vindecoder.eu/3.2";
     const id = "decode";
@@ -17,10 +17,10 @@ router.post("/vin", async (req, res) => {
     let controlSum = sha1(
       vin + "|" + id + "|" + apiKey + "|" + secretKey
     ).substring(0, 10);
-    console.log(controlSum);
+
     let url =
       apiPrefix + "/" + apiKey + "/" + controlSum + "/decode/" + vin + ".json";
-    console.log(url);
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -28,10 +28,11 @@ router.post("/vin", async (req, res) => {
       },
     });
     const data = await response.json();
-    console.log(data);
+
     res.json({ data });
   } catch (error) {
     console.log(error);
+    res.json({ error });
   }
 });
 
