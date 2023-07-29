@@ -1,62 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 export const VehicleDetails = () => {
+  //set image state for data
+  const [image, setImage] = useState("");
+
   //get the car data
   const location = useLocation();
   const carData = location.state;
-  const [
-    vin,
-    ,
-    make,
-    model,
-    myear,
-    ,
-    body,
-    series,
-    ,
-    engine,
-    powerKW,
-    powerCP,
-    fuel,
-    code,
-    transmison,
-    gears,
-    emission,
-    manufacturer,
-    country,
-    productionStarted,
-    productionEnded,
-    cylinders,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    turbine,
-    ,
-    ,
-    ,
-    ,
-    consumption,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    doors,
-    seats,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    ,
-    wheelsize,
-  ] = carData;
+  const [vin, , make, model, , , , series] = carData;
+
+  useEffect(() => {
+    const query = make.value + " " + model.value + " " + series.value;
+    getImage(query);
+  }, [vin]);
+
+  async function getImage(query) {
+    const response = await axios.get("http://localhost:3000/api/image", {
+      params: {
+        query: query,
+      },
+    });
+
+    console.log(response.data);
+    const { thumbnailUrl } = response.data;
+    setImage(thumbnailUrl);
+  }
 
   return (
     <div className="min-h-screen m-4">
@@ -72,155 +41,26 @@ export const VehicleDetails = () => {
         <h2 className="mt-2 text-lg bg-primary text-white p-1 rounded-md font-Tektur -tracking-light">
           {vin.label}:&nbsp;{vin.value}
         </h2>
+        <img src={image} alt={make.value} className="p-4 object-cover" />
       </div>
       <div className="flex mt-20 flex-col w-full items-center lg:justify-between xl:flex-row">
-        <ul className="mt-12 ml-5 font-Lunasima text-sm pl-0 xl:pl-10 sm:text-base lg:text-xl">
-          <li className="p-5">
-            <h3>
-              {myear.label}:&nbsp;{" "}
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {myear.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {body.label}: &nbsp;{" "}
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {body.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {series.label}: &nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {series.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {" "}
-              {engine.label}:&nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {engine.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {powerKW.label}: &nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {powerKW.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {" "}
-              {powerCP.label}:&nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {powerCP.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {" "}
-              {fuel.label}:&nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {fuel.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {code.label}:&nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {code.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            <h3>
-              {transmison.label}:&nbsp;
-              <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-                {transmison.value}
-              </span>
-            </h3>
-          </li>
-          <li className="p-5">
-            {gears.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {gears.value}
-            </span>
-          </li>
-        </ul>
-
-        {/*Half */}
-        <ul className="mt-12  font-Lunasima text-sm pl-0 xl:pl-10 sm:text-base lg:text-xl">
-          <li className="p-5">
-            {emission.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {emission.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {manufacturer.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {manufacturer.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {country.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {country.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {productionStarted.label}: &nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {productionStarted.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {productionEnded.label}: &nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {productionEnded.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {cylinders.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {cylinders.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {turbine.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {turbine.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {consumption.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {consumption.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {doors.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {doors.value}
-            </span>
-          </li>
-          <li className="p-5">
-            {" "}
-            {seats.label}:&nbsp;
-            <span className="bg-primary text-white p-1 text-xs rounded-md md:text-lg xl:p-3">
-              {seats.value}
-            </span>
-          </li>
+        <ul className="mt-12 ml-5 font-Lunasima text-sm p-1  xl:pl-10  md:grid md:grid-cols-2 sm:text-base lg:text-xl lg:grid lg:grid-cols-3">
+          {carData?.length > 0 ? (
+            carData.map((item, index) => {
+              return (
+                <li className="p-5" key={index}>
+                  <h3>
+                    {item.label}:&nbsp;{" "}
+                    <span className="bg-primary text-white p-1 text-xs rounded-md md:text-md lg:text-base xl:p-2">
+                      {item.value}
+                    </span>
+                  </h3>
+                </li>
+              );
+            })
+          ) : (
+            <li className="text-xl">No data found</li>
+          )}
         </ul>
       </div>
     </div>
